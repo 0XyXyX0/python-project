@@ -1,0 +1,21 @@
+<!-- templates/message_user.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Conversation with {{ recipient.username }}</h1>
+
+<ul>
+    {% for message in messages %}
+    <li>{{ message.timestamp }} - {{ message.sender.username }}: {{ message.content }}</li>
+    {% endfor %}
+</ul>
+
+<form method="POST">
+    <label for="content">Message:</label>
+    <textarea name="content" required></textarea><br>
+    <button type="submit">Send</button>
+</form>
+
+<a href="{{ url_for('messages') }}">Back to Messages</a>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}my products{% endblock %}
+
+{% block content %}
+<h1>Your Purchased Products</h1>
+<div class="products">
+    {% if purchases %}
+        {% for purchase in purchases %}
+            <div class="product">
+                <img src="{{ url_for('static', filename=purchase.product.image) }}" alt="{{ purchase.product.name }}">
+                <h2>{{ purchase.product.name }}</h2>
+                <p>Price: ${{ purchase.product.price }}</p>
+                <p>Quantity: {{ purchase.quantity }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>You have not purchased any products yet.</p>
+    {% endif %}
+</div>
+<a href="{{ url_for('index') }}">Back to Products</a>
+{% endblock %}

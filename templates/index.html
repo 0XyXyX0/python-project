@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <h1 class="mb-4">Products</h1>
+    <ul class="list-group">
+        {% for product in products %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="font-weight-bold">{{ product.name }}</p>
+                    <img src="{{ url_for('static', filename=product.image) }}" alt="{{ product.name }}" width="100" class="img-thumbnail">
+                    <p>Publisher: {{ product.publisher.username }}</p> <!-- Display Publisher's Username -->
+                    <p>Price: ${{ product.price }}</p>
+                </div>
+                <div class="btn-group" role="group">
+                    <form action="{{ url_for('buy_product', product_id=product.id) }}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-primary">Buy</button>
+                    </form>
+                    <form action="{{ url_for('add_to_favorite', product_id=product.id) }}" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-warning">Add to favorite</button>
+                    </form>
+                    <a href="{{ url_for('product_detail', product_id=product.id) }}" class="btn btn-secondary">View Details</a>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Favorite Products{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <h1 class="mb-4">Favorite Products</h1>
+    <ul class="list-group">
+        {% for product in favorite_products %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <p>{{ product.image_url }}</p>
+                    <img src="{{ url_for('static', filename=product.image) }}" alt="{{ product.name }}" class="img-thumbnail mr-3" style="width: 100px; height: 100px;">
+                    <div>
+                        <p class="font-weight-bold">{{ product.name }}</p>
+                        <p>Price: ${{ product.price }}</p>
+                    </div>
+                </div>
+                <form action="{{ url_for('remove_from_favorite',  product_id=product.id) }}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger">Remove</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('index') }}" class="btn btn-info mt-4">Back to Products</a>
+</div>
+{% endblock %}

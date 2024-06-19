@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="products" class="container mt-3">
+    {% if 'user_id' in session %}
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
+        Add Product
+    </button>
+    {% endif %}
+
+    <div class="row mt-3">
+        {% for product in queryset %}
+        <div class="col-sm-4 mb-3">
+            <div class="card">
+                <img src="{{ url_for('static', filename=product.image) }}" class="card-img-top" width="300" height="300" alt="Product Image">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">${{ product.price }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addProductModalLabel">New Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for('add_products') }}" method="post" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="productName" class="form-label">Product Name</label>
+                            <input type="text" name="name" class="form-control" id="productName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productPrice" class="form-label">Price</label>
+                            <input type="number" name="price" class="form-control" id="productPrice" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productImage" class="form-label">Upload Image</label>
+                            <input type="file" name="image" class="form-control" id="productImage" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="productPdf" class="form-label">Upload PDF</label>
+                            <input type="file" name="pdf" class="form-control" id="productPdf" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Product</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

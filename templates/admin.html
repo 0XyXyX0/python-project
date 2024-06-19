@@ -1,0 +1,58 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Admin Page{% endblock %}
+{% block content %}
+<h1 class="my-4">Admin Page</h1>
+
+<h2>Users</h2>
+<ul class="list-group mb-4">
+    {% for user in users %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{ user.username }}
+            <form action="{{ url_for('delete_user', user_id=user.id) }}" method="post" class="mb-0">
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+        </li>
+    {% endfor %}
+</ul>
+
+<h2>Products</h2>
+<ul class="list-group">
+    {% for product in products %}
+        <li class="list-group-item">
+            <strong>{{ product.name }}</strong>
+            <div class="d-flex justify-content-end">
+                <form action="{{ url_for('delete_product', product_id=product.id) }}" method="post" class="mb-0">
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+                <button class="btn btn-primary btn-sm btn-update" onclick="document.getElementById('update-{{ product.id }}').style.display='block'">Update</button>
+            </div>
+            <div id="update-{{ product.id }}" class="product-update-form" style="display:none;">
+                <form method="POST" action="{{ url_for('update_product', product_id=product.id) }}" enctype="multipart/form-data" class="mt-3">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" name="name" id="name" value="{{ product.name }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price:</label>
+                        <input type="text" class="form-control" name="price" id="price" value="{{ product.price }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Current Image:</label><br>
+                        <img src="{{ url_for('static', filename=product.image) }}" alt="{{ product.name }}" class="product-image mb-2" width="150" height="150"><br>
+                        <input type="file" class="form-control-file" name="image" id="image">
+                    </div>
+                    <div class="form-group">
+                        <label for="pdf">Current PDF:</label><br>
+                        <a href="{{ url_for('static', filename=product.pdf) }}" target="_blank">{{ product.pdf }}</a><br>
+                        <input type="file" class="form-control-file" name="pdf" id="pdf">
+                    </div>
+                    <button type="submit" class="btn btn-success">Update</button>
+                </form>
+            </div>
+        </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

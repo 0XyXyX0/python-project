@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Deposit{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Deposit Money</h1>
+    <p>{{ message }}</p>
+        <form method="POST">
+        <label for="amount">Amount to Deposit:</label>
+        <input type="text" id="amount" name="amount" required>
+        <button type="submit">Deposit</button>
+    </form>
+    <button type="button" class="btn btn-primary">
+      <a href="{{url_for('index')}}" style="color: white; text-decoration: none;">Back to Buying</a>
+    </button>
+</div>
+{% endblock %}
